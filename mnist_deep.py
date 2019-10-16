@@ -176,9 +176,17 @@ def main(_):
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
 
+
+
+
     with tf.Session(config=config) as sess:
         sess.run(tf.global_variables_initializer())
-        
+
+        # tj : visualize in Tensorboard
+        # https://blog.csdn.net/dcrmg/article/details/83017118\
+        # detailed one : https://blog.csdn.net/helei001/article/details/51842531
+        summary_writer = tf.summary.FileWriter('./log/', sess.graph)
+
         for v in tf.trainable_variables():
             print(v.name + " " + str(v.get_shape()) + " " + str(np.prod(v.get_shape().as_list())))
         print("Total Number of Parameters: " + str(np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])))
